@@ -1,15 +1,17 @@
-enum Status {
-  NEW = 0,
-  CONFIRMED = 1,
-  DONE = 2,
-  CANCELED = 3,
+enum STATUS {
+  CANCELED = 0,
+  NEW = 1,
+  CONFIRMED = 2,
+  PREPARED = 3,
+  FINISHED = 4,
 }
 
 const STATUS_MAP = {
-  0: 'New',
-  1: 'Confirmed',
-  2: 'Done',
-  3: 'Canceled',
+  0: 'Canceled',
+  1: 'New',
+  2: 'Confirmed',
+  3: 'Prepared',
+  4: 'Finished',
 };
 
 
@@ -17,7 +19,7 @@ interface Booking {
   id: string;
   name: string;
   email: string;
-  status: number;
+  status: STATUS;
   people: number;
   area: string;
   comment: string;
@@ -28,4 +30,4 @@ interface Booking {
 }
 export type Bookings = Array<Booking>;
 
-export { Status, STATUS_MAP };
+export { STATUS, STATUS_MAP };

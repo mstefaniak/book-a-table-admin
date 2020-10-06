@@ -1,22 +1,20 @@
-import { useCallback, useEffect, useState, useContext } from "react";
+import { useCallback, useContext } from "react";
 import { FirebaseContext } from "../context/firebase";
 import { startOfToday, endOfToday } from 'date-fns';
 import { Bookings } from '../types';
 
-type WhereType = [string, firebase.firestore.WhereFilterOp, any];
-
-const useData = (target: string, where?: WhereType) => {
-  const [data, setData] = useState<Bookings>();
+const useGetData = (which?: string) => {
   const { firebase } = useContext(FirebaseContext);
 
-  const queryData = useCallback(async () => {
+  const getData = useCallback(async () => {
     if (!firebase) {
       return;
     }
     const collectionRef = firebase
       .firestore()
-      .collection(target);
-    const snapshot = where
+      .collection('bookings');
+
+    const snapshot = which === 'current'
       ? await collectionRef.where('date', '>', startOfToday()).where('date', '<', endOfToday()).get()
       : await collectionRef.get();
 
@@ -30,14 +28,10 @@ const useData = (target: string, where?: WhereType) => {
       id: contentObj.id,
     }));
 
-    setData(allContent as Bookings);
-  }, [firebase, target, where]);
+    return allContent as Bookings;
+  }, [firebase, which]);
 
-  useEffect(() => {
-    queryData();
-  }, []);
-
-  return { [target]: data };
+  return { getData };
 };
 
-export { useData };
+export { useGetData };
