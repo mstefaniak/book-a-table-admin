@@ -1,17 +1,19 @@
 enum STATUS {
-  CANCELED = 0,
-  NEW = 1,
-  CONFIRMED = 2,
-  PREPARED = 3,
-  FINISHED = 4,
+  NEW = 0,
+  CONFIRMED = 1,
+  PREPARED = 2,
+  REALIZED = 3,
+  NOT_REALIZED = 4,
+  CANCELED = 5,
 }
 
 const STATUS_MAP = {
-  0: 'Canceled',
-  1: 'New',
-  2: 'Confirmed',
-  3: 'Prepared',
-  4: 'Finished',
+  0: 'New',
+  1: 'Confirmed',
+  2: 'Prepared',
+  3: 'Realized',
+  4: 'Not realized',
+  5: 'Canceled',
 };
 
 
@@ -23,10 +25,7 @@ interface Booking {
   people: number;
   area: string;
   comment: string;
-  date: {
-    seconds: number;
-    nanoseconds: number;
-  };
+  date: number;
 }
 export type Bookings = Array<Booking>;
 

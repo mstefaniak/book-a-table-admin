@@ -1,7 +1,11 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { Chip, Grid, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from '@material-ui/core';
 import { makeStyles, Theme } from '@material-ui/core/styles';
-import { NoteAdd as NoteAddIcon, Done as DoneIcon } from '@material-ui/icons';
+import {
+  NoteAdd as NoteAddIcon,
+  Done as DoneIcon,
+  Close as CloseIcon,
+} from '@material-ui/icons';
 import { format } from 'date-fns';
 import { useGetData, useUpdate } from '../../hooks';
 import { STATUS, STATUS_MAP, Bookings } from '../../types';
@@ -11,7 +15,8 @@ const chipColors: { [key:number]: 'default' | 'primary' | 'secondary' } = {
   [STATUS.NEW]: 'default',
   [STATUS.CONFIRMED]: 'default',
   [STATUS.PREPARED]: 'secondary',
-  [STATUS.FINISHED]: 'primary',
+  [STATUS.REALIZED]: 'primary',
+  [STATUS.NOT_REALIZED]: 'default',
 };
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -37,22 +42,15 @@ const Current = (): React.ReactNode => {
     setBookings(bookings);
   }, [getData]);
 
-  const markPrepared = async (bookingId: string) => {
+  const changeStatus = async (bookingId: string, status: STATUS) => {
     disabled.current = bookingId;
-    await update(bookingId, { status: STATUS.PREPARED });
+    await update(bookingId, { status });
     getBookings();
     disabled.current = '';
   }
 
-  const markFinished = async (bookingId: string) => {
-    disabled.current = bookingId;
-    await update(bookingId, { status: STATUS.FINISHED });
-    getBookings();
-    disabled.current = '';
-  }
-
-  const formatDate = (seconds: number): string => {
-    return format(new Date(seconds * 1000), 'HH:mm');
+  const formatTime = (timestamp: number): string => {
+    return format(new Date(timestamp), 'HH:mm');
   }
 
   useEffect(() => {
@@ -73,12 +71,12 @@ const Current = (): React.ReactNode => {
               <TableHead>
                 <TableRow>
                   <TableCell className={classes.th}>Who</TableCell>
-                  <TableCell className={classes.th} align="right">What time</TableCell>
-                  <TableCell className={classes.th} align="right">Persons</TableCell>
-                  <TableCell className={classes.th} align="right">Where</TableCell>
-                  <TableCell className={classes.th} align="right">Status</TableCell>
-                  <TableCell className={classes.th} align="right">Comment</TableCell>
-                  <TableCell className={classes.th} align="right"></TableCell>
+                  <TableCell className={classes.th} align="center">What time</TableCell>
+                  <TableCell className={classes.th} align="center">Persons</TableCell>
+                  <TableCell className={classes.th} align="center">Where</TableCell>
+                  <TableCell className={classes.th} align="center">Status</TableCell>
+                  <TableCell className={classes.th} align="center">Comment</TableCell>
+                  <TableCell className={classes.th}></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -87,16 +85,16 @@ const Current = (): React.ReactNode => {
                     <TableCell component="th" scope="row">
                       {booking.name}
                     </TableCell>
-                    <TableCell align="right">{formatDate(booking.date.seconds)}</TableCell>
-                    <TableCell align="right">{booking.people}</TableCell>
-                    <TableCell align="right">{booking.area}</TableCell>
-                    <TableCell align="right">
+                    <TableCell align="center">{formatTime(booking.date)}</TableCell>
+                    <TableCell align="center">{booking.people}</TableCell>
+                    <TableCell align="center">{booking.area}</TableCell>
+                    <TableCell align="center">
                       <Chip
                         color={chipColors[booking.status]}
                         label={STATUS_MAP[booking.status]}
                       />
                     </TableCell>
-                    <TableCell align="right">{booking.comment}</TableCell>
+                    <TableCell align="center">{booking.comment}</TableCell>
                     <TableCell align="right">
                       {booking.status < STATUS.PREPARED &&
                         <Tooltip title="Mark prepared">
@@ -104,23 +102,35 @@ const Current = (): React.ReactNode => {
                             edge="end"
                             aria-label="prepared"
                             disabled={disabled.current === booking.id}
-                            onClick={() => markPrepared(booking.id)}
+                            onClick={() => changeStatus(booking.id, STATUS.PREPARED)}
                           >
                             <NoteAddIcon />
                           </IconButton>
                         </Tooltip>
                       }
-                      {booking.status < STATUS.FINISHED &&
-                        <Tooltip title="Mark finished">
-                          <IconButton
-                            edge="end"
-                            aria-label="finished"
-                            disabled={disabled.current === booking.id}
-                            onClick={() => markFinished(booking.id)}
-                          >
-                            <DoneIcon />
-                          </IconButton>
-                        </Tooltip>
+                      {booking.status === STATUS.PREPARED &&
+                        <>
+                          <Tooltip title="Mark not realized">
+                            <IconButton
+                              edge="end"
+                              aria-label="not realized"
+                              disabled={disabled.current === booking.id}
+                              onClick={() => changeStatus(booking.id, STATUS.NOT_REALIZED)}
+                            >
+                              <CloseIcon />
+                            </IconButton>
+                          </Tooltip>
+                          <Tooltip title="Mark realized">
+                            <IconButton
+                              edge="end"
+                              aria-label="realized"
+                              disabled={disabled.current === booking.id}
+                              onClick={() => changeStatus(booking.id, STATUS.REALIZED)}
+                            >
+                              <DoneIcon />
+                            </IconButton>
+                          </Tooltip>
+                        </>
                       }
                     </TableCell>
                   </TableRow>
