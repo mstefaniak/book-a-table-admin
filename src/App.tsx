@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { Current } from './components/Current';
-import { Next } from './components/Next';
-import { History } from './components/History';
+import { BookingsList } from './components/BookingsList';
 import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, Box, Tab, Tabs } from '@material-ui/core';
+import { DATA_TYPE } from './types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -64,13 +63,13 @@ const App = () => {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        <Current />
+        <BookingsList type={DATA_TYPE.CURRENT} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Next />
+        <BookingsList type={DATA_TYPE.NEXT} />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <History />
+        <BookingsList type={DATA_TYPE.HISTORY} />
       </TabPanel>
     </div>
   );

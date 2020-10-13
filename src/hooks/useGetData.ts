@@ -1,9 +1,9 @@
 import { useCallback, useContext } from "react";
 import { FirebaseContext } from "../context/firebase";
-import { startOfToday, endOfToday } from 'date-fns';
-import { Bookings } from '../types';
+import { startOfToday, endOfToday, getTime } from 'date-fns';
+import { Bookings, DATA_TYPE } from '../types';
 
-const useGetData = (which?: string) => {
+export const useGetData = (type: DATA_TYPE) => {
   const { firebase } = useContext(FirebaseContext);
 
   const getData = useCallback(async () => {
@@ -14,9 +14,18 @@ const useGetData = (which?: string) => {
       .firestore()
       .collection('bookings');
 
-    const snapshot = which === 'current'
-      ? await collectionRef.where('date', '>', startOfToday()).where('date', '<', endOfToday()).get()
-      : await collectionRef.get();
+    let snapshotRef = null;
+    const todayStartTime = getTime(startOfToday());
+    const todayEndTime = getTime(endOfToday());
+    if (type === DATA_TYPE.CURRENT) {
+      snapshotRef = collectionRef.where('date', '>', todayStartTime).where('date', '<', todayEndTime);
+    } else if (type === DATA_TYPE.NEXT) {
+      snapshotRef = collectionRef.where('date', '>=', todayEndTime);
+    } else {
+      snapshotRef = collectionRef.where('date', '<=', todayStartTime);
+    }
+
+    const snapshot = await snapshotRef.get();
 
     if (snapshot.empty) {
       console.warn('No matching documents');
@@ -29,9 +38,7 @@ const useGetData = (which?: string) => {
     }));
 
     return allContent as Bookings;
-  }, [firebase, which]);
+  }, [firebase, type]);
 
   return { getData };
 };
-
-export { useGetData };

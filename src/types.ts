@@ -1,4 +1,4 @@
-enum STATUS {
+export enum STATUS {
   NEW = 0,
   CONFIRMED = 1,
   PREPARED = 2,
@@ -7,7 +7,7 @@ enum STATUS {
   CANCELED = 5,
 }
 
-const STATUS_MAP = {
+export const STATUS_MAP = {
   0: 'New',
   1: 'Confirmed',
   2: 'Prepared',
@@ -15,7 +15,6 @@ const STATUS_MAP = {
   4: 'Not realized',
   5: 'Canceled',
 };
-
 
 interface Booking {
   id: string;
@@ -27,6 +26,11 @@ interface Booking {
   comment: string;
   date: number;
 }
+
 export type Bookings = Array<Booking>;
 
-export { STATUS, STATUS_MAP };
+export enum DATA_TYPE {
+  CURRENT = 'current',
+  NEXT = 'next',
+  HISTORY = 'history',
+}
