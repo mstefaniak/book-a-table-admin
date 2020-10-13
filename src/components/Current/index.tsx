@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const Current = (): React.ReactNode => {
+const Current = (): JSX.Element => {
   const { getData } = useGetData('current');
   const [ bookings, setBookings ] = useState<Bookings | undefined>();
   const { update } = useUpdate();
