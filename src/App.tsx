@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { BookingsList } from './components/BookingsList';
+import { Login } from './components/Login';
 import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, Box, Tab, Tabs } from '@material-ui/core';
 import { DATA_TYPE } from './types';
+import { FirebaseContext } from "./context/firebase";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,10 +45,33 @@ const TabPanel = (props: TabPanelProps) => {
 const App = () => {
   const classes = useStyles();
   const [value, setValue] = useState(0);
+  const [isLogged, setIsLogged] = useState(false);
+  const { firebase } = useContext(FirebaseContext);
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
+
+    if (firebase && newValue === 3) {
+      firebase.auth().signOut();
+    }
   };
+
+  useEffect(() => {
+    if (firebase) {
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          setValue(0);
+          setIsLogged(true);
+        } else {
+          setIsLogged(false);
+        }
+      });
+    }
+  }, [firebase]);
+
+  if (!isLogged) {
+    return <div className={classes.root}><Login /></div>;
+  }
 
   return (
     <div className={classes.root}>
@@ -60,6 +85,7 @@ const App = () => {
           <Tab label="Current" />
           <Tab label="Next" />
           <Tab label="History" />
+          <Tab label="Sign out" />
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
