@@ -45,6 +45,7 @@ const TabPanel = (props: TabPanelProps) => {
 const App = () => {
   const classes = useStyles();
   const [value, setValue] = useState(0);
+  const [loading, setLoading] = useState(true);
   const [isLogged, setIsLogged] = useState(false);
   const { firebase } = useContext(FirebaseContext);
 
@@ -65,9 +66,15 @@ const App = () => {
         } else {
           setIsLogged(false);
         }
+
+        setLoading(false);
       });
     }
   }, [firebase]);
+
+  if (loading) {
+    return null;
+  }
 
   if (!isLogged) {
     return <div className={classes.root}><Login /></div>;
