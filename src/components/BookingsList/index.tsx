@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { Chip, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip } from '@material-ui/core';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import {
@@ -7,8 +7,8 @@ import {
   Close as CloseIcon,
 } from '@material-ui/icons';
 import { format } from 'date-fns';
-import { useGetData, useUpdate } from '../../hooks';
-import { STATUS, STATUS_MAP, Bookings, DATA_TYPE } from '../../types';
+import { useBookings, useUpdate } from '../../hooks';
+import { STATUS, STATUS_MAP, DATA_TYPE } from '../../types';
 
 const chipColors: { [key:number]: 'default' | 'primary' | 'secondary' } = {
   [STATUS.CANCELED]: 'default',
@@ -35,24 +35,14 @@ interface BookingsProps {
 }
 
 export const BookingsList = ({ type }: BookingsProps) => {
-  const { getData } = useGetData(type);
-  const [ loading, setLoading ] = useState(true);
-  const [ bookings, setBookings ] = useState<Bookings | undefined>();
+  const { bookings, loading } = useBookings(type);
   const { update } = useUpdate();
   const classes = useStyles();
   const disabled = useRef<string>('');
 
-  const getBookings = useCallback(async () => {
-    setLoading(true);
-    const bookings = await getData();
-    setBookings(bookings);
-    setLoading(false);
-  }, [getData]);
-
   const changeStatus = async (bookingId: string, status: STATUS) => {
     disabled.current = bookingId;
     await update(bookingId, { status });
-    getBookings();
     disabled.current = '';
   }
 
@@ -65,10 +55,6 @@ export const BookingsList = ({ type }: BookingsProps) => {
       return format(date, 'yyyy-MM-dd HH:mm');
     }
   }, [type]);
-
-  useEffect(() => {
-    getBookings();
-  }, [getBookings]);
 
   return (
     <>

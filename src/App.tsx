@@ -90,7 +90,7 @@ const App = () => {
           aria-label="nav tabs example"
         >
           <Tab label="Current" />
-          <Tab label="Next" />
+          <Tab label="Upcoming" />
           <Tab label="History" />
           <Tab label="Sign out" />
         </Tabs>

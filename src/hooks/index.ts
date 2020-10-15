@@ -1,2 +1,2 @@
-export { useGetData } from './useGetData';
+export { useBookings } from './useBookings';
 export { useUpdate } from './useUpdate';
