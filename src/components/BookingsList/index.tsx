@@ -101,7 +101,7 @@ export const BookingsList = ({ type }: BookingsProps) => {
                         </IconButton>
                       </Tooltip>
                     }
-                    {type === DATA_TYPE.NEXT && booking.status === STATUS.PREPARED &&
+                    {(type === DATA_TYPE.CURRENT || type === DATA_TYPE.HISTORY) && booking.status === STATUS.PREPARED &&
                       <>
                         <Tooltip title="Mark not realized">
                           <IconButton
