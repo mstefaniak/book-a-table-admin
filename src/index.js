@@ -5,6 +5,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { firebase } from "./lib/firebase";
 import { FirebaseContext } from "./context/firebase";
+import { reload } from './lib/reload';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -19,3 +20,5 @@ ReactDOM.render(
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.register();
+
+reload();
