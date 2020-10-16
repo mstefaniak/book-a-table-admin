@@ -12,7 +12,7 @@ export const useBookings = (type: DATA_TYPE) => {
 
   const handleSnapshot = (snapshot: Snapshot) => {
     setLoading(false);
-    
+
     if (snapshot.empty) {
       console.warn('No matching documents');
       return;
@@ -38,11 +38,11 @@ export const useBookings = (type: DATA_TYPE) => {
     const todayStartTime = getTime(startOfToday());
     const todayEndTime = getTime(endOfToday());
     if (type === DATA_TYPE.CURRENT) {
-      query = collectionRef.where('date', '>', todayStartTime).where('date', '<', todayEndTime);
+      query = collectionRef.where('date', '>', todayStartTime).where('date', '<', todayEndTime).orderBy('date', 'asc');
     } else if (type === DATA_TYPE.NEXT) {
-      query = collectionRef.where('date', '>=', todayEndTime);
+      query = collectionRef.where('date', '>=', todayEndTime).orderBy('date', 'asc');
     } else {
-      query = collectionRef.where('date', '<=', todayStartTime);
+      query = collectionRef.where('date', '<=', todayStartTime).orderBy('date', 'desc');
     }
 
     query.onSnapshot(snapshot => {

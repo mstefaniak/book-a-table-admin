@@ -58,7 +58,7 @@ export const BookingsList = ({ type }: BookingsProps) => {
 
   return (
     <>
-      { bookings ? (
+      { bookings.length ? (
         <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="bookings list">
             <TableHead>
