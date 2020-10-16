@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "https://mstefaniak.github.io/book-a-table-admin/static/css/main.5ecd60fb.chunk.css",
-    "main.js": "https://mstefaniak.github.io/book-a-table-admin/static/js/main.b8e35118.chunk.js",
-    "main.js.map": "https://mstefaniak.github.io/book-a-table-admin/static/js/main.b8e35118.chunk.js.map",
+    "main.js": "https://mstefaniak.github.io/book-a-table-admin/static/js/main.82759f56.chunk.js",
+    "main.js.map": "https://mstefaniak.github.io/book-a-table-admin/static/js/main.82759f56.chunk.js.map",
     "runtime-main.js": "https://mstefaniak.github.io/book-a-table-admin/static/js/runtime-main.b5ae6796.js",
     "runtime-main.js.map": "https://mstefaniak.github.io/book-a-table-admin/static/js/runtime-main.b5ae6796.js.map",
-    "static/js/2.c91acb7b.chunk.js": "https://mstefaniak.github.io/book-a-table-admin/static/js/2.c91acb7b.chunk.js",
-    "static/js/2.c91acb7b.chunk.js.map": "https://mstefaniak.github.io/book-a-table-admin/static/js/2.c91acb7b.chunk.js.map",
+    "static/js/2.7fb1667d.chunk.js": "https://mstefaniak.github.io/book-a-table-admin/static/js/2.7fb1667d.chunk.js",
+    "static/js/2.7fb1667d.chunk.js.map": "https://mstefaniak.github.io/book-a-table-admin/static/js/2.7fb1667d.chunk.js.map",
     "index.html": "https://mstefaniak.github.io/book-a-table-admin/index.html",
-    "precache-manifest.3a64a3402f5b09c0c1a1583d9937d2bf.js": "https://mstefaniak.github.io/book-a-table-admin/precache-manifest.3a64a3402f5b09c0c1a1583d9937d2bf.js",
+    "precache-manifest.dd08efd7fcadd55227aba7357e9287f0.js": "https://mstefaniak.github.io/book-a-table-admin/precache-manifest.dd08efd7fcadd55227aba7357e9287f0.js",
     "service-worker.js": "https://mstefaniak.github.io/book-a-table-admin/service-worker.js",
     "static/css/main.5ecd60fb.chunk.css.map": "https://mstefaniak.github.io/book-a-table-admin/static/css/main.5ecd60fb.chunk.css.map",
-    "static/js/2.c91acb7b.chunk.js.LICENSE.txt": "https://mstefaniak.github.io/book-a-table-admin/static/js/2.c91acb7b.chunk.js.LICENSE.txt"
+    "static/js/2.7fb1667d.chunk.js.LICENSE.txt": "https://mstefaniak.github.io/book-a-table-admin/static/js/2.7fb1667d.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.b5ae6796.js",
-    "static/js/2.c91acb7b.chunk.js",
+    "static/js/2.7fb1667d.chunk.js",
     "static/css/main.5ecd60fb.chunk.css",
-    "static/js/main.b8e35118.chunk.js"
+    "static/js/main.82759f56.chunk.js"
   ]
 }
