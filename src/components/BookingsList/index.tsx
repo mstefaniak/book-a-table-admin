@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Chip, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip } from '@material-ui/core';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import {
@@ -36,14 +36,14 @@ interface BookingsProps {
 
 export const BookingsList = ({ type }: BookingsProps) => {
   const { bookings, loading } = useBookings(type);
+  const [pending, setPending] = useState(false);
   const { update } = useUpdate();
   const classes = useStyles();
-  const disabled = useRef<string>('');
 
   const changeStatus = async (bookingId: string, status: STATUS) => {
-    disabled.current = bookingId;
+    setPending(true);
     await update(bookingId, { status });
-    disabled.current = '';
+    setPending(false);
   }
 
   const formatTime = useCallback((timestamp: number): string => {
@@ -94,7 +94,7 @@ export const BookingsList = ({ type }: BookingsProps) => {
                         <IconButton
                           edge="end"
                           aria-label="prepared"
-                          disabled={disabled.current === booking.id}
+                          disabled={pending}
                           onClick={() => changeStatus(booking.id, STATUS.PREPARED)}
                         >
                           <NoteAddIcon />
@@ -107,7 +107,7 @@ export const BookingsList = ({ type }: BookingsProps) => {
                           <IconButton
                             edge="end"
                             aria-label="not realized"
-                            disabled={disabled.current === booking.id}
+                            disabled={pending}
                             onClick={() => changeStatus(booking.id, STATUS.NOT_REALIZED)}
                           >
                             <CloseIcon />
@@ -117,7 +117,7 @@ export const BookingsList = ({ type }: BookingsProps) => {
                           <IconButton
                             edge="end"
                             aria-label="realized"
-                            disabled={disabled.current === booking.id}
+                            disabled={pending}
                             onClick={() => changeStatus(booking.id, STATUS.REALIZED)}
                           >
                             <DoneIcon />
