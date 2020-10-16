@@ -1,6 +1,7 @@
 {
   "name": "book-a-table-admin",
   "version": "0.1.0",
+  "homepage:": "https://mstefaniak.github.io/book-a-table-admin",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.11.0",
